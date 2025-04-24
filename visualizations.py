@@ -2302,86 +2302,86 @@ def get_trends_graphs(trends_df):
   graphs = {}
   graphs['graph1'] = sentiment_over_time_p(trends_df)
   graphs['graph2'] = emotion_over_time_p(trends_df)
-  s, d = sentiment_over_time_stacked(trends_df, day=True)
-  for script in s:
-    scripts.append(script)
-  for div in d:
-    divs.append(div)
-  s, d = sentiment_over_time_stacked(trends_df, month=True)
-  for script in s:
-    scripts.append(script)
-  for div in d:
-    divs.append(div)
-  s, d = sentiment_over_time_stacked(trends_df, year=True)
-  for script in s:
-    scripts.append(script)
-  for div in d:
-    divs.append(div)
+  #s, d = sentiment_over_time_stacked(trends_df, day=True)
+  #for script in s:
+    #scripts.append(script)
+  #for div in d:
+    #divs.append(div)
+  #s, d = sentiment_over_time_stacked(trends_df, month=True)
+  #for script in s:
+    #scripts.append(script)
+  #for div in d:
+    #divs.append(div)
+  #s, d = sentiment_over_time_stacked(trends_df, year=True)
+  #for script in s:
+    #scripts.append(script)
+  #for div in d:
+    #divs.append(div)
   s, d = sentiment_over_time_stacked_by_percent_per_year(trends_df)
   for script in s:
     scripts.append(script)
   for div in d:
     divs.append(div)
-  s, d = emotion_over_time_stacked(trends_df, day=True)
-  for script in s:
-    scripts.append(script)
-  for div in d:
-    divs.append(div)
-  s, d = emotion_over_time_stacked(trends_df, month=True)
-  for script in s:
-    scripts.append(script)
-  for div in d:
-    divs.append(div)
-  s, d = emotion_over_time_stacked(trends_df, year=True)
-  for script in s:
-    scripts.append(script)
-  for div in d:
-    divs.append(div)
+  #s, d = emotion_over_time_stacked(trends_df, day=True)
+  #for script in s:
+    #scripts.append(script)
+  #for div in d:
+    #divs.append(div)
+  #s, d = emotion_over_time_stacked(trends_df, month=True)
+  #for script in s:
+    #scripts.append(script)
+  #for div in d:
+    #divs.append(div)
+  #s, d = emotion_over_time_stacked(trends_df, year=True)
+  #for script in s:
+    #scripts.append(script)
+  #for div in d:
+    #divs.append(div)
   s, d = emotion_over_time_stacked_by_percent_per_year(trends_df)
   for script in s:
     scripts.append(script)
   for div in d:
     divs.append(div)
-  s, d = sentiment_over_time_line(trends_df, day=True)
-  for script in s:
-    scripts.append(script)
-  for div in d:
-    divs.append(div)
-  s, d = sentiment_over_time_line(trends_df, month=True)
-  for script in s:
-    scripts.append(script)
-  for div in d:
-    divs.append(div)
+  #s, d = sentiment_over_time_line(trends_df, day=True)
+  #for script in s:
+    #scripts.append(script)
+  #for div in d:
+    #divs.append(div)
+  #s, d = sentiment_over_time_line(trends_df, month=True)
+  #for script in s:
+    #scripts.append(script)
+  #for div in d:
+    #divs.append(div)
   s, d = sentiment_over_time_line(trends_df, year=True)
   for script in s:
     scripts.append(script)
   for div in d:
     divs.append(div)
-  s, d = emotion_over_time_line(trends_df, day=True)
-  for script in s:
-    scripts.append(script)
-  for div in d:
-    divs.append(div)
-  s, d = emotion_over_time_line(trends_df, month=True)
-  for script in s:
-    scripts.append(script)
-  for div in d:
-    divs.append(div)
+  #s, d = emotion_over_time_line(trends_df, day=True)
+  #for script in s:
+    #scripts.append(script)
+  #for div in d:
+    #divs.append(div)
+  #s, d = emotion_over_time_line(trends_df, month=True)
+  #for script in s:
+    #scripts.append(script)
+  #for div in d:
+    #divs.append(div)
   s, d = emotion_over_time_line(trends_df, year=True)
   for script in s:
     scripts.append(script)
   for div in d:
     divs.append(div)
-  s, d = sentiment_heatmap(trends_df)
-  for script in s:
-    scripts.append(script)
-  for div in d:
-    divs.append(div)
-  s, d = emotion_heatmap(trends_df)
-  for script in s:
-    scripts.append(script)
-  for div in d:
-    divs.append(div)
+  #s, d = sentiment_heatmap(trends_df)
+  #for script in s:
+    #scripts.append(script)
+  #for div in d:
+    #divs.append(div)
+  #s, d = emotion_heatmap(trends_df)
+  #for script in s:
+    #scripts.append(script)
+  #for div in d:
+    #divs.append(div)
   s, d = sentiment_heatmap_by_percent(trends_df)
   for script in s:
     scripts.append(script)
