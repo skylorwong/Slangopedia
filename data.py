@@ -5,8 +5,26 @@ import numpy as np
 #from sklearn.decomposition import PCA
 
 def get_data():
-    with open('urban_dict_data_cleaned_emo.json', 'r') as file:
-        urban_dict_data = json.load(file)
+    urban_dict_data = {}
+    data_str = 'urbandict2.'
+    jsons = [f'{data_str}0',
+             f'{data_str}1',
+             f'{data_str}2',
+             f'{data_str}3',
+             f'{data_str}4',
+             f'{data_str}5',
+             f'{data_str}6',
+             f'{data_str}7',
+             f'{data_str}7.1',
+             f'{data_str}7.2',
+             f'{data_str}7.3',
+             f'{data_str}7.4',
+             f'{data_str}8',
+             f'{data_str}8.1',
+             f'{data_str}9']
+    for data in jsons:
+        with open(f'urbandict2/{data}.json', 'r') as file:
+            urban_dict_data = urban_dict_data | json.load(file)
     return urban_dict_data
 
 def get_date_df(urban_dict):
