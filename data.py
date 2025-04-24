@@ -12,16 +12,7 @@ def get_data():
              f'{data_str}2',
              f'{data_str}3',
              f'{data_str}4',
-             f'{data_str}5',
-             f'{data_str}6',
-             f'{data_str}7',
-             f'{data_str}7.1',
-             f'{data_str}7.2',
-             f'{data_str}7.3',
-             f'{data_str}7.4',
-             f'{data_str}8',
-             f'{data_str}8.1',
-             f'{data_str}9']
+             f'{data_str}5']
     for data in jsons:
         with open(f'urbandict2/{data}.json', 'r') as file:
             urban_dict_data = urban_dict_data | json.load(file)
