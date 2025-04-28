@@ -8,9 +8,9 @@
 <body>
     <nav>
         <a href="/index">Home</a> |
-        <a href="/language">Characteristics</a> |
-        <a href="/explore">Explore</a> |
-        <a href="/deeper">Sentiment and Emotions</a> |
+        <a href="/linguistics">Linguistics</a> |
+        <a href="/social">Social Dimensions</a> |
+        <a href="/sentiment&emotion">Sentiment and Emotion</a> |
         <a href="/trends">Trends Over Time</a> |
         <a href="/search">Search</a>
     </nav>
@@ -18,6 +18,32 @@
     <div id="home" style="height: 500px;">
         <h2>Search Section</h2>
         On this page you can search for specific slang on Urban Dictionary. Coming soon!
+        <br><br>
+    <form action="/search" method="GET">
+        <label>Search:</label>
+        <input type="text" id="search" name="search" value="{{search}}" required>
+        <button type="submit">Go</button>
+    </form>
+    {% if info_bool %}
+        <p>Slang: {{search}}</p>
+        <p>Top Entries:</p>
+        <br>
+        {% for entry in info['top_5_entries'] %}
+            <p>Definition: {{entry['definition']}}</p>
+            <p>Date: {{entry['date'][:10]}}</p>
+            <p>Thumbs Up: {{entry['thumbs_up']}}</p>
+            <p>Related: {{entry['related']}}</p>
+            <p>Definition Sentiment: {{entry['definition_sentiment_label']}}</p>
+            <p>Definition Emotion: {{entry['definition_emotion_label']}}</p>
+            <p>Example: {{entry['example']}}</p>
+            <p>Definition Emotion: {{entry['example_sentiment_label']}}</p>
+            <p>Example Emotion: {{entry['definition_emotion_label']}}</p>
+            <br>
+        {% endfor %}
+        <a href="{{info['url']}}">Click Here To View All Entries On Urban Dictionary</a>
+    {% else %}
+        <p>{{info}}</p>
+    {% endif %}
     </div>
 </body>
 </html>

@@ -18,23 +18,6 @@ def get_data():
             urban_dict_data = urban_dict_data | json.load(file)
     return urban_dict_data
 
-def get_date_df(urban_dict):
-    data = []
-    for word, info in urban_dict.items():
-        entry = {}
-        entry['word'] = word
-        entry['date'] = info['top_5_entries'][0]['date'][0:10]
-        data.append(entry)
-
-    date_df = pd.DataFrame(data)
-
-    date_df['date'] = pd.to_datetime(date_df['date'])
-    date_df['year'] = date_df['date'].dt.year
-    date_df['month_datetime'] = date_df['date'].dt.to_period('M').dt.to_timestamp()
-    date_df['year_datetime'] = pd.to_datetime(date_df['year'], format='%Y')
-
-    return date_df
-
 def get_date_df_all(urban_dict):
   data = []
   for word, info in urban_dict.items():
@@ -52,6 +35,34 @@ def get_date_df_all(urban_dict):
   date_df['year_datetime'] = pd.to_datetime(date_df['year'], format='%Y')
 
   return date_df
+
+def get_date2(urban_dict):
+    data = []
+    for word, info in urban_dict.items():
+        for t in info['top_5_entries']:
+            entry = {}
+            entry['word'] = word
+            entry['d_sentiment'] = t['definition_sentiment_label']
+            entry['d_emotion'] = t['definition_emotion_label']
+            entry['e_sentiment'] = t['example_sentiment_label']
+            entry['e_emotion'] = t['example_emotion_label']
+            entry['date'] = t['date'][0:10]
+            data.append(entry)
+
+    df = pd.DataFrame(data)
+
+    df['date'] = pd.to_datetime(df['date'])
+    df['year'] = df['date'].dt.year
+
+    exclude = ['trust', 'pessism', 'love']
+    df_removed = df[df['d_emotion'] != 'trust']
+    df_removed = df_removed[df_removed['d_emotion'] != 'pessism']
+    df_removed = df_removed[df_removed['d_emotion'] != 'love']
+    df_removed = df_removed[df_removed['e_emotion'] != 'pessism']
+    df_removed = df_removed[df_removed['e_emotion'] != 'trust']
+    df_removed = df_removed[df_removed['e_emotion'] != 'love']
+
+    return df_removed
 
 def get_trends_df(urban_dict):
     data = []
@@ -79,3 +90,18 @@ def run_pca(slang):
   pca_result = pca.fit_transform(word_vectors)
 
   return pca_result
+
+
+def get_non_slang():
+   df = pd.read_csv('englishdict.csv')
+   
+   columns_as_lists = {col: df[col].tolist() for col in df.columns}
+   english_words = columns_as_lists['word']
+   non_slang = []
+   for i, w in enumerate(english_words):
+        if not isinstance(w, str):
+           w = str(w)
+        non_slang.append(w)
+   return non_slang
+
+
