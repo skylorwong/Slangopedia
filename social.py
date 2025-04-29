@@ -47,7 +47,7 @@ def most_popular(urban_dict, slang, top=14):
   p.vbar(x=top_slang, top=top_thumbs, width=0.9,color=Category10[3][0])
 
   # Customize plot aesthetics
-  p.xaxis.major_label_orientation = "vertical"
+  p.xaxis.major_label_orientation = 45
   p.xgrid.grid_line_color = None
   p.y_range.start = 0
 
@@ -136,7 +136,7 @@ def curse_words(urban_dict):
   p.vbar(x=curse, top=percents, width=0.9, color=Category10[3][0])
 
   # Customize plot aesthetics
-  p.xaxis.major_label_orientation = "vertical"
+  p.xaxis.major_label_orientation = 45
   p.xgrid.grid_line_color = None
   p.y_range.start = 0
 
@@ -177,7 +177,7 @@ def curse_words(urban_dict):
   p.vbar(x=curse, top=percents, width=0.9, color=Category10[3][0])
 
   # Customize plot aesthetics
-  p.xaxis.major_label_orientation = "vertical"
+  p.xaxis.major_label_orientation = 45
   p.xgrid.grid_line_color = None
   p.y_range.start = 0
 
@@ -283,7 +283,6 @@ def related(urban_dict):
   p.vbar(x=related, top=percents, width=0.5, color=Category10[3][0])
 
   # Customize plot aesthetics
-  p.xaxis.major_label_orientation = "vertical"
   p.xgrid.grid_line_color = None
   p.y_range.start = 0
 

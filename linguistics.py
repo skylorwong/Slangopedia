@@ -190,7 +190,6 @@ def compare_first_deltas(letters, s, ns):
   p.vbar(x=letters, top=percent_delta, width=0.5, color=Category10[3][0])
 
   # Customize plot aesthetics
-  p.xaxis.major_label_orientation = "vertical"
   p.xgrid.grid_line_color = None
   p.y_range.start = 0
 
