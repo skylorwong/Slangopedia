@@ -92,6 +92,7 @@ def moretrends():
     urban_dict_data = data.get_data()
     df = data.get_date2(urban_dict_data)
     graphs = vis.get_more_trends_graphs(df)
-    html_code = flask.render_template('moretrends.html', graph1=graphs['graph1'], graph2=graphs['graph2'])
+    html_code = flask.render_template('moretrends.html', graph1=graphs['graph1'])
+    #html_code = flask.render_template('moretrends.html', graph1=graphs['graph1'], graph2=graphs['graph2'])
     response = flask.make_response(html_code)
     return response
