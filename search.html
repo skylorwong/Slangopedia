@@ -84,12 +84,12 @@
                 <br>
             </div>
             {% endfor %}
-            <a href="{{info['url']}}">Click Here To See All Entries On Urban Dictionary</a>
+            Click here to see all entries on <a href="{{info['url']}}">Urban Dictionary</a>.
         {% else %}
             <p>{{info}}</p>
         {% endif %}
     </div>
-    <br><br><br><br>
+    <br><br>
     <div>
         {% for item in divs %}
             {{ item|safe }}

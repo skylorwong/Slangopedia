@@ -108,72 +108,6 @@ def related_network_graph(urban_dict, n=50):
 
   return graph_html
 
-def scatter_pca(pca, slang, n=None):
-  if n is not None:
-      indices = np.random.choice(len(pca), n, replace=False)
-      pca = pca[indices]
-      slang = np.array(slang)[indices]
-
-  source = ColumnDataSource(data=dict(
-    x=pca[:, 0],
-    y=pca[:, 1],
-    slang=slang
-  ))
-
-  p = figure(title="PCA of FastText Word Embeddings",
-           x_axis_label='Principal Component 1',
-           y_axis_label='Principal Component 2',
-           tools="pan,box_zoom,reset,hover")
-
-  # Add scatter points
-  p.scatter(x='x', y='y', source=source, size=10, alpha=0.6)
-
-  # Add hover tool
-  p.add_tools(
-    HoverTool(
-        tooltips=[("Slang", "@slang")]
-    )
-  )
-
-  script, div = components(p)
-  
-  return script, div
-
-def scatter_pca_with_clustering(pca, slang, n_clusters=5, num_points=None):
-    if num_points is not None:
-      indices = np.random.choice(len(pca), num_points, replace=False)
-      pca = pca[indices]
-      slang = np.array(slang)[indices]
-
-    kmeans = KMeans(n_clusters=n_clusters)
-    clusters = kmeans.fit_predict(pca)
-
-    clusters_str = [str(c) for c in clusters]
-
-    source = ColumnDataSource(data=dict(
-        x=pca[:, 0],
-        y=pca[:, 1],
-        slang=slang,
-        cluster=clusters_str
-    ))
-
-    p = figure(title="PCA of FastText Word Embeddings (with Clusters)",
-               x_axis_label='Principal Component 1',
-               y_axis_label='Principal Component 2',
-               tools="pan,box_zoom,reset,hover")
-
-    color_mapper = CategoricalColorMapper(factors=[str(i) for i in range(n_clusters)],
-                                          palette=Category10[n_clusters])
-
-    p.scatter(x='x', y='y', source=source, size=10, color={'field': 'cluster', 'transform': color_mapper}, alpha=0.6)
-
-    # Add hover tool
-    p.add_tools(HoverTool(tooltips=[("Slang", "@slang"), ("Cluster", "@cluster")]))
-
-    script, div = components(p)
-  
-    return script, div
-
 def sentiment_over_time_p(df):
     sentiments = ['positive', 'negative', 'neutral']
     time_options = ['day', 'month', 'year']
@@ -543,10 +477,9 @@ def get_sentimentemotion_graphs(urban_dict_data):
   
   return scripts, divs
 
-def get_trends_graphs(dates_df, dates2_df, trends_df):
+def get_trends_graphs(dates_df, dates2_df):
   scripts = []
   divs = []
-  graphs = {}
 
   scripts = []
   divs = []
@@ -585,9 +518,7 @@ def get_trends_graphs(dates_df, dates2_df, trends_df):
   scripts.append(s2)
   divs.append(d2)
 
-  graphs['graph1'] = sentiment_over_time_p(dates2_df)
-  graphs['graph2'] = emotion_over_time_p(dates2_df)
-  return scripts, divs, graphs
+  return scripts, divs
 
 def get_data(info, definition=True):
   sent_to_num = {'positive': 1, 'negative': -1, 'neutral':0}
@@ -631,3 +562,10 @@ def get_search_graphs(info):
   divs.append(d)
 
   return scripts, divs
+
+def get_more_trends_graphs(df):
+  graphs = {}
+  graphs['graph1'] = sentiment_over_time_p(df)
+  graphs['graph2'] = emotion_over_time_p(df)
+  return graphs
+   

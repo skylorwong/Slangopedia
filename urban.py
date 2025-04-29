@@ -61,9 +61,8 @@ def trends():
     urban_dict_data = data.get_data()
     dates_df = data.get_date_df_all(urban_dict_data)
     dates2_df = data.get_date2(urban_dict_data)
-    trends_df = data.get_trends_df(urban_dict_data)
-    scripts, divs, graphs = vis.get_trends_graphs(dates_df, dates2_df, trends_df)
-    html_code = flask.render_template('trends.html', scripts=scripts, divs=divs, graph1=graphs['graph1'], graph2=graphs['graph2'])
+    scripts, divs = vis.get_trends_graphs(dates_df, dates2_df)
+    html_code = flask.render_template('trends.html', scripts=scripts, divs=divs)
     response = flask.make_response(html_code)
     return response
 
@@ -85,5 +84,14 @@ def search():
         else:
             info = f"No information for {search}."
     html_code = flask.render_template('search.html', scripts=scripts, divs=divs, search=search, info_bool=info_bool, info=info, nearest=nearest)
+    response = flask.make_response(html_code)
+    return response
+
+@app.route('/moretrends', methods=['GET'])
+def moretrends():
+    urban_dict_data = data.get_data()
+    df = data.get_date2(urban_dict_data)
+    graphs = vis.get_more_trends_graphs(df)
+    html_code = flask.render_template('moretrends.html', graph1=graphs['graph1'], graph2=graphs['graph2'])
     response = flask.make_response(html_code)
     return response

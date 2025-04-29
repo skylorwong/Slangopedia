@@ -64,33 +64,6 @@ def get_date2(urban_dict):
 
     return df_removed
 
-def get_trends_df(urban_dict):
-    data = []
-    for word, info in urban_dict.items():
-        entry = {}
-        entry['word'] = word
-        entry['d_sentiment'] = info['top_5_entries'][0]['definition_sentiment_label']
-        entry['d_emotion'] = info['top_5_entries'][0]['definition_emotion_label']
-        entry['e_sentiment'] = info['top_5_entries'][0]['example_sentiment_label']
-        entry['e_emotion'] = info['top_5_entries'][0]['example_emotion_label']
-        entry['date'] = info['top_5_entries'][0]['date'][0:10]
-        data.append(entry)
-    
-    df = pd.DataFrame(data)
-    df['date'] = pd.to_datetime(df['date'])
-    df['year'] = df['date'].dt.year
-   
-    return df
-
-def run_pca(slang):
-  model = fasttext.load_model("urban_slang_ft.bin")
-  word_vectors = np.array([model.get_word_vector(word) for word in slang])
-
-  pca = PCA(n_components=2)
-  pca_result = pca.fit_transform(word_vectors)
-
-  return pca_result
-
 
 def get_non_slang():
    df = pd.read_csv('englishdict.csv')
