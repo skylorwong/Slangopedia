@@ -563,9 +563,9 @@ def get_search_graphs(info):
 
   return scripts, divs
 
-def get_more_trends_graphs(df):
-  graphs = {}
-  graphs['graph1'] = sentiment_over_time_p(df)
-  #graphs['graph2'] = emotion_over_time_p(df)
-  return graphs
+def get_sentiment_trends_graphs(df):
+  return sentiment_over_time_p(df)
+
+def get_emotion_trends_graphs(df):
+  return emotion_over_time_p(df)
    

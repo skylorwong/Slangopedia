@@ -87,12 +87,20 @@ def search():
     response = flask.make_response(html_code)
     return response
 
-@app.route('/moretrends', methods=['GET'])
-def moretrends():
+@app.route('/sentimenttrends', methods=['GET'])
+def sentimenttrends():
     urban_dict_data = data.get_data()
     df = data.get_date2(urban_dict_data)
-    graphs = vis.get_more_trends_graphs(df)
-    html_code = flask.render_template('moretrends.html', graph1=graphs['graph1'])
-    #html_code = flask.render_template('moretrends.html', graph1=graphs['graph1'], graph2=graphs['graph2'])
+    graph = vis.get_sentiment_trends_graphs(df)
+    html_code = flask.render_template('sentimenttrends.html', graph=graph)
+    response = flask.make_response(html_code)
+    return response
+
+@app.route('/emotiontrends', methods=['GET'])
+def emotiontrends():
+    urban_dict_data = data.get_data()
+    df = data.get_date2(urban_dict_data)
+    graph = vis.get_emotion_trends_graphs(df)
+    html_code = flask.render_template('emotiontrends.html', graph=graph)
     response = flask.make_response(html_code)
     return response
