@@ -539,9 +539,20 @@ def get_data(info, definition=True):
       data['emotion'].append(emo_to_num[e])
   return data
 
+def get_thumbs(info):
+  popularity = {'dates': [], 'thumbs': []}
+  for entry in info['top_5_entries']:
+    popularity['dates'].append(entry['date'][:10])
+    popularity['thumbs'].append(entry['thumbs_up'])
+  return popularity
+      
 def get_search_graphs(info):
   scripts = []
   divs = []
+  popularity = get_thumbs(info)
+  s, d = search.popularity_tracker(popularity)
+  scripts.append(s)
+  divs.append(d)
   data = get_data(info, True)
   s, d = search.sent_tracker(data, "(Definitions)")
   scripts.append(s)

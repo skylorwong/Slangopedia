@@ -95,3 +95,33 @@ def emo_tracker(data, definition):
   script, div = components(p)
   
   return script, div
+
+def popularity_tracker(popularity):
+  df = pd.DataFrame(popularity)
+  df = df.sort_values(by='dates')
+
+  dates = [str(d) for d in df['dates']]
+  thumbs_up = list(df['thumbs'])
+
+  source = ColumnDataSource(data=dict(x=dates,y=thumbs_up))
+
+  p = figure(x_range=dates,\
+             title="Popularity Tracker",\
+             x_axis_label='Date',\
+             y_axis_label='Number of Thumbs Up')
+
+  # Create vertical bars
+  p.vbar(x='x', top='y', width=0.5, color=Category10[3][0], source=source)
+
+  # Customize plot aesthetics
+  p.xgrid.grid_line_color = None
+  p.y_range.start = 0
+
+  # Hover tool
+  hover = HoverTool()
+  hover.tooltips = [("Date", "@x"), ("Number of Thumbs Up", "@top")]
+  p.add_tools(hover)
+  
+  script, div = components(p)
+  
+  return script, div
