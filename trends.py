@@ -273,7 +273,7 @@ def emo_line(df):
 
   source = ColumnDataSource(e_percentages)
 
-  p = figure(x_axis_label="Year", y_axis_label="Percent", title="Emotions of Slang Over Time (Examples and Definitions Combined)", height=400, width=800)
+  p = figure(x_axis_label="Year", y_axis_label="Percent", title="Emotion of Slang Over Time (Examples and Definitions Combined)", height=400, width=800)
 
   for i, emotion in enumerate(emotions):
     p.line(x='year', y=emotion, source=source, line_width=2, color=colors[i], legend_label=emotion)

@@ -16,6 +16,7 @@ import pandas as pd
 from bokeh.models import ColorBar
 from plotly.subplots import make_subplots
 import plotly.express as px
+import plotly.io as pio
 
 import linguistics
 import social
@@ -102,10 +103,9 @@ def related_network_graph(urban_dict, n=50):
                     plot_bgcolor='white'
                 ))
 
-  # Show the plot
-  fig.show()
+  graph_html = pio.to_html(fig, full_html=False)
 
-  return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+  return graph_html
 
 def scatter_pca(pca, slang, n=None):
   if n is not None:
@@ -175,11 +175,11 @@ def scatter_pca_with_clustering(pca, slang, n_clusters=5, num_points=None):
 
 def sentiment_over_time_p(df):
     sentiments = ['positive', 'negative', 'neutral']
-    time_options = ['date', 'month', 'year']
+    time_options = ['day', 'month', 'year']
     metric_options = ['count', 'percent']
 
     # Prepare time-based columns
-    df['date'] = pd.to_datetime(df['date'])
+    df['day'] = pd.to_datetime(df['date'])
     df['month'] = df['date'].dt.to_period('M').dt.to_timestamp()
     df['year'] = pd.to_datetime(df['date'].dt.year.astype(str))
 
@@ -300,21 +300,21 @@ def sentiment_over_time_p(df):
         margin=dict(t=100),
     )
 
-    fig.update_xaxes(title_text="Time", row=1, col=1)
-    fig.update_xaxes(title_text="Time", row=1, col=2)
+    fig.update_xaxes(title_text="Date", row=1, col=1)
+    fig.update_xaxes(title_text="Date", row=1, col=2)
     fig.update_yaxes(title_text="Count / Percent")
 
-    fig.show()
+    graph_html = pio.to_html(fig, full_html=False)
 
-    return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graph_html
 
 def emotion_over_time_p(df):
-    emotions = ['anger', 'anticipation', 'disgust', 'fear', 'joy', 'love','optimism','pessimism', 'sadness', 'surprise', 'trust']
-    time_options = ['date', 'month', 'year']
+    emotions = ['anger', 'anticipation', 'disgust', 'fear', 'joy','optimism','sadness', 'surprise']
+    time_options = ['day', 'month', 'year']
     metric_options = ['count', 'percent']
 
     # Prepare time-based columns
-    df['date'] = pd.to_datetime(df['date'])
+    df['day'] = pd.to_datetime(df['date'])
     df['month'] = df['date'].dt.to_period('M').dt.to_timestamp()
     df['year'] = pd.to_datetime(df['date'].dt.year.astype(str))
 
@@ -346,7 +346,7 @@ def emotion_over_time_p(df):
     # Create subplots
     fig = make_subplots(
         rows=1, cols=2,
-        subplot_titles=("Emotions of Definitions", "Emotions of Examples"),
+        subplot_titles=("Emotion of Definitions", "Emotion of Examples"),
         shared_yaxes=True
     )
 
@@ -428,20 +428,20 @@ def emotion_over_time_p(df):
                 "yanchor": "top",
             }
         ],
-        title="Emotions of Slang Over Time",
+        title="Emotion of Slang Over Time",
         height=550,
         width=1000,
         hovermode="x unified",
         margin=dict(t=100),
     )
 
-    fig.update_xaxes(title_text="Time", row=1, col=1)
-    fig.update_xaxes(title_text="Time", row=1, col=2)
+    fig.update_xaxes(title_text="Date", row=1, col=1)
+    fig.update_xaxes(title_text="Date", row=1, col=2)
     fig.update_yaxes(title_text="Count / Percent")
 
-    fig.show()
+    graph_html = pio.to_html(fig, full_html=False)
 
-    return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graph_html
 
 def get_linguistics_graphs(slang, non_slang):
   scripts = []
@@ -574,8 +574,8 @@ def get_trends_graphs(dates_df, dates2_df, trends_df):
   scripts.append(s2)
   divs.append(d2)
 
-  #graphs['graph1'] = sentiment_over_time_p(trends_df)
-  #graphs['graph2'] = emotion_over_time_p(trends_df)
+  graphs['graph1'] = sentiment_over_time_p(dates2_df)
+  graphs['graph2'] = emotion_over_time_p(dates2_df)
   return scripts, divs, graphs
 
 def get_data(info, definition=True):

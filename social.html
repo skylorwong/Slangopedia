@@ -24,12 +24,9 @@
     <div id="home" style="height: 500px;">
         <h2>Social Dimensions Section</h2>
         This page explores the social dimensions of slang on Urban Dictionary. Check out some visualizations below!
-        <div id="graph"></div>
-    
-        <script>
-            var graphData = {{p_graph|safe}};
-            Plotly.newPlot('graph', graphData.data, graphData.layout);
-        </script>
+        <div>
+            {{graph | safe}}
+        </div>
         <div>
             {% for item in divs %}
                 {{ item|safe }}

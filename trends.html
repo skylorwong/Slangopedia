@@ -7,7 +7,6 @@
     {% for item in scripts %}
         {{ item|safe }}
     {% endfor %}
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.7.2.min.js"></script>
     <link rel="stylesheet" href="https://cdn.bokeh.org/bokeh/release/bokeh-3.7.2.min.css">
 </head>
@@ -24,16 +23,10 @@
     <div id="home" style="height: 500px;">
         <h2>Trends Section</h2>
         This page will explore trends of slang on Urban Dictionary. Check out some visualizations below!
-        <div id="graph1"></div>
-        <div id="graph2"></div>
-
-        <script>
-            var graph1 = {{ graphs['graph1']|safe }};
-            var graph2 = {{ graphs['graph2']|safe }};
-
-            Plotly.newPlot('graph1', graph1.data, graph1.layout);
-            Plotly.newPlot('graph2', graph2.data, graph2.layout);
-        </script>
+        <div>
+            <div>{{graph1|safe}}</div>
+            <div>{{graph2|safe}}</div>
+        </div>
         <div>
             {% for item in divs %}
                 {{ item|safe }}

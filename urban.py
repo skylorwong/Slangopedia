@@ -43,8 +43,8 @@ def social():
     slang = []
     for key in urban_dict_data:
         slang.append(key)
-    scripts, divs, p_graph = vis.get_social_graphs(urban_dict_data, slang, pca)
-    html_code = flask.render_template('social.html', scripts=scripts, divs=divs, p_graph=p_graph)
+    scripts, divs, graph = vis.get_social_graphs(urban_dict_data, slang, pca)
+    html_code = flask.render_template('social.html', scripts=scripts, divs=divs, graph=graph)
     response = flask.make_response(html_code)
     return response
 
@@ -63,7 +63,7 @@ def trends():
     dates2_df = data.get_date2(urban_dict_data)
     trends_df = data.get_trends_df(urban_dict_data)
     scripts, divs, graphs = vis.get_trends_graphs(dates_df, dates2_df, trends_df)
-    html_code = flask.render_template('trends.html', scripts=scripts, divs=divs, graphs=graphs)
+    html_code = flask.render_template('trends.html', scripts=scripts, divs=divs, graph1=graphs['graph1'], graph2=graphs['graph2'])
     response = flask.make_response(html_code)
     return response
 
