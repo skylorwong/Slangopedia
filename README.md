@@ -1,1 +1,1 @@
-# JuniorIndependentWork
+# Slangopedia
