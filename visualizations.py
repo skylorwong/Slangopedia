@@ -100,7 +100,8 @@ def related_network_graph(urban_dict, n=50):
                     hovermode='closest',
                     xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                     yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                    plot_bgcolor='white'
+                    plot_bgcolor='white',
+                    font=dict(family="Helvetica, sans-serif",size=12,color="black")
                 ))
 
   graph_html = pio.to_html(fig, full_html=False)
@@ -259,6 +260,11 @@ def sentiment_over_time_p(df):
 
     # Create dropdowns
     fig.update_layout(
+        font=dict(
+          family="Helvetica, sans-serif",  # Match typical HTML font stacks
+          size=12,
+          color="black"
+        ),
         updatemenus=[
             # Time toggle
             {
@@ -356,7 +362,7 @@ def emotion_over_time_p(df):
 
     emotion_colors = {}
     for i, emotion in enumerate(emotions):
-        emotion_colors[emotion] = px.colors.qualitative.Alphabet[i]
+        emotion_colors[emotion] = px.colors.qualitative.Set1[i]
 
     for time_option in time_options:
         for metric in metric_options:
@@ -394,6 +400,11 @@ def emotion_over_time_p(df):
 
     # Create dropdowns
     fig.update_layout(
+        font=dict(
+          family="Helvetica, sans-serif",  # Match typical HTML font stacks
+          size=12,
+          color="black"
+        ),
         updatemenus=[
             # Time toggle
             {

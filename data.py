@@ -104,4 +104,10 @@ def get_non_slang():
         non_slang.append(w)
    return non_slang
 
+def get_nearest(word):
+    with open('nearest.json', 'r') as f:
+       data = json.load(f)
+    return data[word]
+   
+
 

@@ -15,20 +15,25 @@
         <a href="/index">Home</a> |
         <a href="/linguistics">Linguistics</a> |
         <a href="/social">Social Dimensions</a> |
-        <a href="/sentiment&emotion">Sentiment and Emotion</a> |
+        <a href="/sentimentemotion">Sentiment and Emotion</a> |
         <a href="/trends">Trends Over Time</a> |
         <a href="/search">Search</a>
     </nav>
 
     <div id="home" style="height: 500px;">
         <h2>Search Section</h2>
-        On this page you can search for specific slang on Urban Dictionary and see its top entries!
+        Search for any slang word or phase and see its top entries on Urban Dictionary!
         <br><br>
         <form action="/search" method="GET">
             <label>Search:</label>
             <input type="text" id="search" name="search" value="{{search}}" required>
             <button type="submit">Go</button>
         </form>
+        {% if info_bool %}
+        <br>
+        Also check out the visualizations and top ten nearest neighbors based on trained word embeddings below.
+        {% endif %}
+        <br>
         {% if info_bool %}
             <br>
             {% for entry in info['top_5_entries'] %}
@@ -79,7 +84,7 @@
                 <br>
             </div>
             {% endfor %}
-            <a href="{{info['url']}}">Click Here To View All Entries On Urban Dictionary</a>
+            <a href="{{info['url']}}">Click Here To See All Entries On Urban Dictionary</a>
         {% else %}
             <p>{{info}}</p>
         {% endif %}
@@ -89,6 +94,21 @@
         {% for item in divs %}
             {{ item|safe }}
         {% endfor %}
+    </div>
+    <br><br>
+    <div>
+        <table border="1">
+            <tbody>
+                <tr>
+                    <td><strong>Nearest Neighbors</strong></td>
+                </tr>
+                {% for near in nearest %}
+                <tr>
+                    <td>{{ near }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
