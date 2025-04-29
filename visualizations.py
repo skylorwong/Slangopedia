@@ -21,6 +21,7 @@ import linguistics
 import social
 import sentimentemotion
 import trends
+import search
 
 def related_network_graph(urban_dict, n=50):
   # Initialize the graph
@@ -105,128 +106,6 @@ def related_network_graph(urban_dict, n=50):
   fig.show()
 
   return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-
-def date_info_by_year_top(df):
-  word_counts = df.groupby('year_datetime').size().reset_index(name='count')
-  word_counts['year_datetime'] = word_counts['year_datetime'].astype(str).str[:4]
-
-  source = ColumnDataSource(word_counts)
-
-  p = figure(x_range=word_counts['year_datetime'], height=400, width=800,
-           title=f"Number of Slang by Year (Top Entry)")
-
-  p.vbar(x='year_datetime', top='count', width=0.8, source=source, color=Category20[20][0])
-
-  p.xaxis.axis_label = "Year"
-  p.yaxis.axis_label = "Count"
-  p.xgrid.grid_line_color = None
-  p.xaxis.major_label_orientation = 45
-  p.y_range.start = 0
-
-  # Hover tool
-  hover = HoverTool()
-  hover.tooltips = [
-        ("Year", "@year_datetime"),
-        ("Count", "@count")
-  ]
-  script, div = components(p)
-  
-  return script, div
-
-def date_info_by_year_all(df):
-  word_counts = df.groupby('year_datetime').size().reset_index(name='count')
-  word_counts['year_datetime'] = word_counts['year_datetime'].astype(str).str[:4]
-
-  source = ColumnDataSource(word_counts)
-
-  p = figure(x_range=word_counts['year_datetime'], height=400, width=800,
-           title=f"Number of Slang by Year (All Entries)")
-
-  p.vbar(x='year_datetime', top='count', width=0.8, source=source, color=Category20[20][0])
-
-  p.xaxis.axis_label = "Year"
-  p.yaxis.axis_label = "Count"
-  p.xgrid.grid_line_color = None
-  p.xaxis.major_label_orientation = 45
-  p.y_range.start = 0
-
-  # Hover tool
-  hover = HoverTool()
-  hover.tooltips = [
-        ("Year", "@year_datetime"),
-        ("Count", "@count")
-  ]
-  p.add_tools(hover)
-
-  script, div = components(p)
-  
-  return script, div
-
-def date_info_top(df, day=False, month=False, year=False):
-  if day:
-    x = 'date'
-    x_label = 'Date'
-  elif month:
-    x = 'month_datetime'
-    x_label = 'Month'
-  elif year:
-    x = 'year_datetime'
-    x_label = 'Year'
-  else:
-    print("Select day, month, or year")
-    return
-
-  word_counts = df.groupby(x).size().reset_index(name='count')
-  source = ColumnDataSource(word_counts)
-
-  p = figure(x_axis_type='datetime', x_axis_label=x_label, y_axis_label="Count", title=f"Number of Slang by {x_label} (Top Entry)", height=400, width=800)
-  p.line(x=x, y='count', source=source, line_width=2)
-
-  # Hover tool
-  hover = HoverTool()
-  hover.tooltips = [
-        (x_label, f"@{x}{{%F}}"),
-        ("Count", "@count")
-    ]
-  hover.formatters = {f'@{x}': 'datetime'}
-  p.add_tools(hover)
-
-  script, div = components(p)
-  
-  return script, div
-
-def date_info_all(df, day=False, month=False, year=False):
-  if day:
-    x = 'date'
-    x_label = 'Date'
-  elif month:
-    x = 'month_datetime'
-    x_label = 'Month'
-  elif year:
-    x = 'year_datetime'
-    x_label = 'Year'
-  else:
-    print("Select day, month, or year")
-    return
-
-  word_counts = df.groupby(x).size().reset_index(name='count')
-  source = ColumnDataSource(word_counts)
-
-  p = figure(x_axis_type='datetime', x_axis_label=x_label, y_axis_label="Count", title=f"Number of Slang by {x_label} (All Entries)", height=400, width=800)
-  p.line(x=x, y='count', source=source, line_width=2)
-
-  # Hover tool
-  hover = HoverTool()
-  hover.tooltips = [
-        (x_label, f"@{x}{{%F}}"),
-        ("Count", "@count")
-    ]
-  hover.formatters = {f'@{x}': 'datetime'}
-  p.add_tools(hover)
-
-  script, div = components(p)
-  
-  return script, div
 
 def scatter_pca(pca, slang, n=None):
   if n is not None:
@@ -698,3 +577,46 @@ def get_trends_graphs(dates_df, dates2_df, trends_df):
   #graphs['graph1'] = sentiment_over_time_p(trends_df)
   #graphs['graph2'] = emotion_over_time_p(trends_df)
   return scripts, divs, graphs
+
+def get_data(info, definition=True):
+  sent_to_num = {'positive': 1, 'negative': -1, 'neutral':0}
+  emo_to_num = {'anger': 0, 'anticipation': 4, 'disgust':3, 'fear':1, 'joy':7, 'optimism':6, 'sadness':2, 'surprise':5 }
+  data = {'date': [], 'sentiment': [], 'emotion': []}
+  for entry in info['top_5_entries']:
+    if definition:
+      data['date'].append(entry['date'][:10])
+      s = entry['definition_sentiment_label']
+      data['sentiment'].append(sent_to_num[s])
+      e = entry['definition_emotion_label']
+      data['emotion'].append(emo_to_num[e])
+    else:
+      data['date'].append(entry['date'][:10])
+      s = entry['example_sentiment_label']
+      data['sentiment'].append(sent_to_num[s])
+      e = entry['example_emotion_label']
+      data['emotion'].append(emo_to_num[e])
+  return data
+
+def get_search_graphs(info):
+  scripts = []
+  divs = []
+  data = get_data(info, True)
+  s, d = search.sent_tracker(data, "(Definitions)")
+  scripts.append(s)
+  divs.append(d)
+  data = get_data(info, False)
+  scripts.append(s)
+  divs.append(d)
+  s, d = search.sent_tracker(data, "(Examples)")
+  scripts.append(s)
+  divs.append(d)
+  data = get_data(info, True)
+  s, d = search.emo_tracker(data, "(Definitions)")
+  scripts.append(s)
+  divs.append(d)
+  data = get_data(info, True)
+  s, d = search.emo_tracker(data, "(Examples)")
+  scripts.append(s)
+  divs.append(d)
+
+  return scripts, divs

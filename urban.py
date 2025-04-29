@@ -73,12 +73,15 @@ def search():
     search = flask.request.args.get('search', '')
     info_bool = False
     info = ""
+    scripts = {}
+    divs = {}
     if search != '':
         if urban_dict_data.get(search) is not None:
             info_bool = True
             info = urban_dict_data.get(search)
+            scripts, divs = vis.get_search_graphs(info)
         else:
             info = f"No information for {search}."
-    html_code = flask.render_template('search.html', search=search, info_bool=info_bool, info=info)
+    html_code = flask.render_template('search.html', scripts=scripts, divs=divs, search=search, info_bool=info_bool, info=info)
     response = flask.make_response(html_code)
     return response
